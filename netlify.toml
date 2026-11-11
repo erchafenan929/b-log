@@ -1,0 +1,17 @@
+# 参照站部署在 Netlify：连接 Git 仓库后这份配置会自动生效
+# 构建命令先跑 set-url.js，它会用站点真实域名改写 _config.yml 的 url / root。
+# Netlify 构建环境内置 URL（主站点地址）；若绑定自定义域名或 URL 不正确，
+# 在 Site configuration > Environment variables 里加一个 SITE_URL 覆盖即可。
+[build]
+  command = "node scripts/set-url.js && npm run build"
+  publish = "public"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
