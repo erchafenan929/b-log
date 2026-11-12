@@ -26,11 +26,12 @@
 b-log/
 ├── _config.yml              # 站点配置：标题、作者、域名、永久链接
 ├── _config.fluid.yml        # 主题覆盖配置：导航、首页 Banner、关于页
-├── DEPLOY.md                # 完整上线操作清单（Netlify / GitHub Pages）
+├── DEPLOY.md                # 上线操作清单（三条路线，照着点）
 ├── netlify.toml             # Netlify 构建配置
 ├── .github/workflows/pages.yml   # 备选：GitHub Pages 自动部署
-├── scripts/
-│   └── set-url.js           # 构建前按真实域名自动修正 url / root
+├── tools/
+│   ├── set-url.js           # 构建前按真实域名自动修正 url / root
+│   └── predeploy-check.js   # 上线前只读自检
 ├── source/
 │   ├── _posts/              # 已发布的文章
 │   ├── _drafts/             # 草稿与写法教程，默认不发布
@@ -115,11 +116,17 @@ tags:
 
 ## 上线
 
-**完整步骤见 [`DEPLOY.md`](DEPLOY.md)**，包含 Netlify / GitHub Pages 两条路径、需要本人登录的操作、变量配置、验收清单和故障排查。
+**完整步骤见 [`DEPLOY.md`](DEPLOY.md)**，三条路线都写成了「照着点」的粒度，含验收清单与故障排查。先跑一句 `node tools/predeploy-check.js` 可以确认部署配置有没有漏项。
+
+| 路线 | 要不要 GitHub 账号 | 以后发文 |
+| --- | --- | --- |
+| 0. Netlify Drop：把 `public/` 拖到网页 | 不需要 | 重新构建 + 再拖一次 |
+| 1. GitHub + Netlify（推荐） | 需要 | `git push` 自动上线 |
+| 2. GitHub Pages | 需要，且仓库必须 Public | `git push` 自动上线 |
 
 这里只说最容易误解的一点：`_config.yml` 里的 `url: https://example.com` 是本地占位，**线上不用手改**。构建前 `tools/set-url.js` 会读取部署平台的域名，自动把 `url` 和 `root` 写对，包括 GitHub Pages 的 `/仓库名/` 子路径。
 
-真正需要你按自己情况改的只有：站名与署名、关于页 GitHub 图标链接、头像和头图（不换也能正常显示，主题自带默认图）。
+注意：**三种方式上线后站点本身都是公开的**，首页目前是你的私人随笔，公开前请自己确认。GitHub 图标已经移除，不需要再改；真要改成「你的」，只剩站名、署名、标语、头像和头图（不换也能正常显示，主题自带默认图）。
 
 ## 可选功能
 
