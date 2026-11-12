@@ -21,15 +21,26 @@
 > ⚠️ 三种方式得到的**站点本身都是公开的**。首页那篇是你的私人随笔，公开前请自己确认。
 > 另外 GitHub Free 账户的 Pages 只支持 **Public 仓库**（2026-11 核实），选路线 2 意味着源码也一并公开；路线 1 可以用私有仓库。
 
-## 二、上线前自检（可选，我已跑过）
+## 二、终端里到底输什么（速查 + 自检）
 
-在 VS Code 终端（已配成 Git Bash、自动停在 `D:\b-log`）敲：
+VS Code 里 **文件 → 打开文件夹** 选 `D:\b-log`，按 `Ctrl+Shift+反引号键` 新建终端。提示符是 `$`、已自动停在项目目录，**不用敲 `cd`**。
 
-```bash
-node tools/predeploy-check.js
-```
+| 想做什么 | 在终端里敲什么 |
+| --- | --- |
+| 路线 0：拖文件夹上线 | **什么都不用敲**，去浏览器拖 `public/` 就行 |
+| 上线前自检（可选） | `node tools/predeploy-check.js` |
+| 关联 GitHub 仓库 | **不要手敲**：到 GitHub 建仓成功页，复制它给出的那行 `git remote add origin ...` 粘贴执行（地址已填好） |
+| 推送到 GitHub | `git push -u origin main` |
+| 以后发新文章 | `git add . && git commit -m "新文章" && git push` |
+| 重新生成 `public/` | `npm run build` |
+| 起本地预览 | `Ctrl+Shift+B`，或 `node node_modules/hexo-cli/bin/hexo server -p 4001` |
+| 新建文章 | `node node_modules/hexo-cli/bin/hexo new "英文文件名"` |
 
-它会只读检查依赖、配置、`public/`、git 状态，并列出还缺什么。当前结果：8 个部署文件齐全、35 个产物、依赖完整、分支 `main`；只有 3 条提示（占位域名、未关联远程、有新文档待提交），都不影响上线。
+**最重要的一条：带 `< >` 尖括号的是占位符，绝不能原样复制。** 本机就曾被把 `https://github.com/<用户名>/<仓库名>.git` 当成真实地址加进 `origin`，这种地址 `git push` 必然失败，现已清除。GitHub 建好空仓库后的成功页会显示一段「…or push an existing repository from the command line」，里面的用户名和仓库名都是填好的，**复制那几行最保险**。
+
+另外两条：不用 `cd`（终端已配好启动目录）；不要用 `npx`（会联网重新下载 hexo，看起来像卡死，在默认终端还会被执行策略拦掉）。
+
+**自检**（只读，不改任何文件）：`node tools/predeploy-check.js`。当前结果：8 个部署文件齐全、35 个产物、依赖完整、分支 `main`、工作区干净；提示两项（产物含占位域名 2 处、未关联远程仓库），结论「可以上线」。脚本现在也会帮你抓出写着占位符的 `origin`。
 
 ---
 
@@ -70,18 +81,24 @@ node tools/predeploy-check.js
 
 ### 第 2 步：把本地代码推上去
 
-VS Code 里打开文件夹 `D:\b-log` → 菜单「终端 → 新建终端」（自动是 Git Bash、不用 `cd`），敲：
+VS Code 里打开文件夹 `D:\b-log` → 菜单「终端 → 新建终端」（自动是 Git Bash、不用 `cd`）。
+
+**第一条命令不要手敲**：回到 GitHub 刚建好仓库的那个页面，找到「…or push an existing repository from the command line」，里面有一行已经填好你用户名和仓库名的 `git remote add origin https://github.com/...`，**复制那一整行**，粘贴到终端回车。
+
+然后敲第二条（这条可以直接复制）：
 
 ```bash
-git remote add origin https://github.com/<你的用户名>/<仓库名>.git
 git push -u origin main
 ```
+
+> ⚠️ 千万别把带 `<用户名>` / `<仓库名>` 尖括号的示例原样粘进终端——那是占位符，不是真实网址。自检脚本会检查这一项。
 
 - 第一次 push 会弹出 GitHub 登录授权，按提示完成即可。
 - **成功标志**：终端出现 `main -> main`；刷新 GitHub 仓库页能看到 `_config.yml`、`source/`、`package.json` 等文件。
 - 若提示认证失败：最省事的是装 GitHub Desktop 登录后重试，或把报错发我。
+- 如果已经误加了占位地址，用 `git remote set-url origin 真实地址` 改掉，或 `git remote remove origin` 清掉重来。
 
-> 换终端时第一行路径写法：Git Bash 无需 cd（已配好）；PowerShell 里先 `cd D:\b-log`；CMD 里先 `cd /d D:\b-log`。其余命令三个终端通用。
+> 没用 VS Code 终端时，进目录写法：Git Bash 无需 cd（项目级配置已设好）；PowerShell 先 `cd D:\b-log`；CMD 先 `cd /d D:\b-log`。其余命令三个终端通用。
 
 ### 第 3 步：Netlify 导入
 
@@ -179,6 +196,7 @@ Value: https://你的真实地址/
 | 站点地址仍是 `example.com` | 构建环境没拿到域名 | Netlify 检查内置 `URL`；Pages 检查 Variables 里的 `SITE_URL` |
 | `npm ci` 失败 | `package-lock.json` 没提交 | 确认它在仓库里（已包含） |
 | Actions 报权限错误 | 工作流权限只读或 Source 没选 Actions | Settings → Actions → General → Workflow permissions 选 Read and write；Pages Source 选 GitHub Actions |
+| `git push` 报 repository not found / 无法解析地址 | `origin` 被设成了带 `< >` 的示例占位符 | `git remote set-url origin 真实地址`；或 `git remote remove origin` 后重新复制 GitHub 页面那行 |
 | `git push` 认证失败 | 没登录 / 令牌过期 | 用 GitHub Desktop 登录，或把报错发我 |
 | 匿名 Drop 的链接打不开或要密码 | 未认领的临时站点 | 注册并 claim，或改走路线 1 |
 | 改了主题配置没生效 | Hexo 缓存 | `npm run clean && npm run build` |

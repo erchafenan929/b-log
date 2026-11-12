@@ -72,7 +72,9 @@ else ok.push('git 工作区干净，所有改动已提交');
 
 const remote = git('remote -v');
 if (!remote) warn.push('尚未关联远程仓库（路线 1/2 需要；路线 0 不需要）');
-else ok.push('已关联远程仓库：' + remote.split('\n')[0].replace(/\s+/g, ' ').trim());
+else if (/<[^>]+>|用户名|仓库名|YOUR_|example/i.test(remote)) {
+  fail.push('远程仓库地址还是示例占位符，push 必然失败；执行 git remote set-url origin 真实地址 修正，或直接把 GitHub 仓库地址发我');
+} else ok.push('已关联远程仓库：' + remote.split('\n')[0].replace(/\s+/g, ' ').trim());
 
 const branch = git('branch --show-current');
 if (branch) ok.push(`当前分支：${branch}`);
@@ -90,4 +92,5 @@ if (fail.length) {
 console.log('结论：可以上线。三条路线见 DEPLOY.md。\n');
 console.log('  路线 0（不用 GitHub）：浏览器打开 https://app.netlify.com/drop ，拖 public/ 文件夹');
 console.log('  路线 1（自动部署）：GitHub 建空仓库 → git push → Netlify Import');
-console.log('  路线 2（自动部署）：GitHub 建空仓库 → git push → Pages 选 GitHub Actions\n');
+console.log('  路线 2（自动部署）：GitHub 建空仓库 → git push → Pages 选 GitHub Actions');
+console.log('  注意：带 < > 尖括号的是占位符，不能原样复制；仓库地址从 GitHub 仓库页复制。\n');
