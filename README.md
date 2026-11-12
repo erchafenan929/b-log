@@ -104,6 +104,14 @@ Fluid 内置但默认未开启的能力，都在 `_config.fluid.yml` 里加配�
 - **Mermaid 流程图**、**脚注**、**评论系统**（Waline / Giscus 等）、**访问统计**、**自定义配色与字体**。
 - 主题配置不要直接改 `node_modules/` 里的文件，一律写进 `_config.fluid.yml` 覆盖，升级主题才不会丢。
 
+## 在 VS Code 里使用
+
+项目自带 `.vscode/settings.json`。用 VS Code **打开文件夹 `D:\b-log`**（文件 → 打开文件夹，不要只打开单个文件），再「终端 → 新建终端」：会自动使用 Git Bash 并停在 `D:\b-log`，**不用敲 `cd`**，本文所有命令原样可用。
+
+如果提示符是 `PS ...>`（PowerShell），说明配置没生效：`Ctrl+Shift+P` → `Terminal: Select Default Profile` → 选 `Git Bash`，关掉旧终端再新建一个。也可以留在 PowerShell，用 `cd D:\b-log` 配合 `npm.cmd run dev` / `npx.cmd hexo new "标题"`。
+
+> 该配置只作用于这个文件夹，不影响其他项目。换电脑后若 Git Bash 不在 `C:\Program Files\Git\bin\bash.exe`，改一下 `.vscode/settings.json` 里的 `path` 即可。
+
 ## 常用命令
 
 > **终端怎么选**：推荐 **Git Bash**，本文命令可原样照抄。若用 VS Code 默认的 PowerShell，本机执行策略是 `Restricted`，`npm` / `npx` 会因 `.ps1` 被禁止而报错，要写成 `npm.cmd run dev`、`npx.cmd hexo new "标题"`；CMD 终端里 `npm` 可直接使用。进入目录的写法分别是：PowerShell `cd D:\b-log`、CMD `cd /d D:\b-log`、Git Bash `cd /d/b-log`。
