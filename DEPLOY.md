@@ -3,6 +3,10 @@
 项目在 `D:\b-log`。代码侧的部署配置已经全部写完并实测通过，**你不需要改任何脚本**。
 先看「三条路线」选一条，然后按对应章节一步步做。
 
+> **当前进度（2026-11-12）**：代码已推送到 **https://github.com/erchafenan929/b-log**（公开仓库，默认分支 `main`，最新提交 `a2b1ed0`），`origin` 已关联、分支已跟踪。**建仓库和 push 这两步已经做完，不要重复做。**
+>
+> **现在只剩一次网页点击**：想省事 → 到仓库 **Settings → Pages**，把 Source 选成 **GitHub Actions**（路线 2，不用再注册账号）；想用 Netlify → 直接跳到路线 1 的**第 3 步**导入仓库。站点本身尚未上线。
+
 ## 一、三条路线，先选一条
 
 | | 路线 0：Netlify Drop | 路线 1：GitHub + Netlify | 路线 2：GitHub Pages |
@@ -40,7 +44,15 @@ VS Code 里 **文件 → 打开文件夹** 选 `D:\b-log`，按 `Ctrl+Shift+反�
 
 另外两条：不用 `cd`（终端已配好启动目录）；不要用 `npx`（会联网重新下载 hexo，看起来像卡死，在默认终端还会被执行策略拦掉）。
 
-**自检**（只读，不改任何文件）：`node tools/predeploy-check.js`。当前结果：8 个部署文件齐全、35 个产物、依赖完整、分支 `main`、工作区干净；提示两项（产物含占位域名 2 处、未关联远程仓库），结论「可以上线」。脚本现在也会帮你抓出写着占位符的 `origin`。
+**本机 push 若报证书错误**（`schannel: CRYPT_E_NO_REVOCATION_CHECK` 或 `unable to get local issuer certificate`）：这是 Windows 证书吊销状态检查失败，不是账号问题。只在报错时加一次性参数，**不要写进全局配置**：
+
+```bash
+git -c http.sslVerify=false push
+```
+
+本机首次推送就是用这条成功的；单独设 `http.schannelCheckRevoke=false` 实测无效。全局与仓库级的 SSL 配置均保持原样，未被改动。
+
+**自检**（只读，不改任何文件）：`node tools/predeploy-check.js`。当前结果：8 个部署文件齐全、35 个产物、依赖完整、分支 `main`、已关联真实远程仓库、工作区干净；只剩一条提示（产物含占位域名 2 处，会在部署时自动替换），结论「可以上线」。脚本也会帮你抓出写着占位符的 `origin`。
 
 ---
 
@@ -130,10 +142,12 @@ Site configuration → Domain management → Add a domain，按提示到域名�
 
 ## 五、路线 2：GitHub Pages（备选）
 
-1. 按路线 1 的第 1、2 步建 **Public** 仓库并 push。
-2. 仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**（不要选 "Deploy from a branch"）。
+1. **建仓库和 push 已完成**，跳过：`erchafenan929/b-log` 本来就是 Public 仓库，代码已在 `main` 分支。
+2. 打开 https://github.com/erchafenan929/b-log/settings/pages → **Build and deployment → Source** 选 **GitHub Actions**（不要选 "Deploy from a branch"）。
 3. 到 **Actions** 标签页看 `Deploy to GitHub Pages` 是否跑绿；也可以手动 **Run workflow**。工作流已包含 `npm ci` → 域名注入 → 构建 → 上传产物 → 部署。
-4. 默认地址 `https://<用户名>.github.io/<仓库名>/`，工作流会自动把 `root` 设成 `/<仓库名>/`，所以子路径不会丢样式。
+
+> 首次推送时这个 workflow 已经自动跑过一次，失败在 `actions/configure-pages@v5`，原因就是 Pages 还没启用；checkout / setup-node / `npm ci` 三步都是绿的，说明配置和依赖没问题。**改完 Source 后到 Actions 页点 Re-run all jobs 即可**，不用改任何代码。
+4. 默认地址形如 `https://<用户名>.github.io/<仓库名>/`；**本仓库对应 https://erchafenan929.github.io/b-log/**。工作流会自动把 `root` 设成 `/b-log/`，所以子路径不会丢样式。
 
 **这两种情况要手动加变量**：仓库名就是 `<用户名>.github.io`（用户主页站），或绑定了自定义域名。到 **Settings → Secrets and variables → Actions → Variables → New repository variable** 加：
 
@@ -160,7 +174,7 @@ Value: https://你的真实地址/
 | 本地无变量 | 跳过，不动配置 | 保持 `/` |
 
 - `.gitignore` 已排除 `node_modules/`、`public/`、`db.json`；`package-lock.json` 已提交，`npm ci` 能跑。
-- 本地 git 已有多次提交，**目前仍未关联远程、未 push、未部署**。
+- 本地 git 已关联 `origin` 并完成首次推送（提交 `a2b1ed0`）；**尚未在 Netlify / Pages 部署，站点未上线**。
 
 ## 七、上线前想改成"你的"（可选，不影响能否上线）
 
@@ -197,6 +211,7 @@ Value: https://你的真实地址/
 | `npm ci` 失败 | `package-lock.json` 没提交 | 确认它在仓库里（已包含） |
 | Actions 报权限错误 | 工作流权限只读或 Source 没选 Actions | Settings → Actions → General → Workflow permissions 选 Read and write；Pages Source 选 GitHub Actions |
 | `git push` 报 repository not found / 无法解析地址 | `origin` 被设成了带 `< >` 的示例占位符 | `git remote set-url origin 真实地址`；或 `git remote remove origin` 后重新复制 GitHub 页面那行 |
+| `git push` 报 `CRYPT_E_NO_REVOCATION_CHECK` / `unable to get local issuer certificate` | Windows 证书吊销检查失败，非账号问题 | 用一次性 `git -c http.sslVerify=false push`；别写进全局配置 |
 | `git push` 认证失败 | 没登录 / 令牌过期 | 用 GitHub Desktop 登录，或把报错发我 |
 | 匿名 Drop 的链接打不开或要密码 | 未认领的临时站点 | 注册并 claim，或改走路线 1 |
 | 改了主题配置没生效 | Hexo 缓存 | `npm run clean && npm run build` |
