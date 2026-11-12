@@ -67,7 +67,7 @@ tags: [Hexo]
 
 真正容易翻车的是**域名和子路径**。Hexo 里 `url` 是完整站点地址，`root` 是资源根路径。如果部署到 `用户名.github.io/仓库名/` 这种子路径却把 `root` 留成 `/`，CSS、JS、图片全会 404，页面能打开但样式全丢。
 
-所以这里加了一个 `scripts/set-url.js`：构建前读 `SITE_URL`（Netlify 也能直接用内置的主站点地址），自动把 `_config.yml` 的 `url` 和 `root` 都改对，含子路径情况。本地开发不设这个变量，脚本直接跳过，不会动你的配置。具体步骤写在 `DEPLOY.md` 里。
+所以这里加了一个 `tools/set-url.js`：构建前读 `SITE_URL`（Netlify 也能直接用内置的主站点地址），自动把 `_config.yml` 的 `url` 和 `root` 都改对，含子路径情况。本地开发不设这个变量，脚本直接跳过，不会动你的配置。具体步骤写在 `DEPLOY.md` 里。
 
 ## 现在还没做的
 

@@ -55,7 +55,13 @@ npm run build     # 等价于 hexo generate，产物在 public/
 
 ## 写一篇文章
 
-最简单的方式：在 `source/_posts/` 下新建 `.md` 文件。
+先进入项目目录 `D:/b-log`，推荐用命令创建——`scaffolds/post.md` 已配好模板，生成的文件自带标题、日期、分类、标签和摘要分隔，直接改内容即可：
+
+```bash
+npx hexo new "文章标题"
+```
+
+也可以直接在 `source/_posts/` 下手动新建 `.md` 文件，效果一样。文件内容长这样：
 
 ```yaml
 ---
@@ -86,7 +92,7 @@ tags:
 
 **完整步骤见 [`DEPLOY.md`](DEPLOY.md)**，包含 Netlify / GitHub Pages 两条路径、需要本人登录的操作、变量配置、验收清单和故障排查。
 
-这里只说最容易误解的一点：`_config.yml` 里的 `url: https://example.com` 是本地占位，**线上不用手改**。构建前 `scripts/set-url.js` 会读取部署平台的域名，自动把 `url` 和 `root` 写对，包括 GitHub Pages 的 `/仓库名/` 子路径。
+这里只说最容易误解的一点：`_config.yml` 里的 `url: https://example.com` 是本地占位，**线上不用手改**。构建前 `tools/set-url.js` 会读取部署平台的域名，自动把 `url` 和 `root` 写对，包括 GitHub Pages 的 `/仓库名/` 子路径。
 
 真正需要你按自己情况改的只有：站名与署名、关于页 GitHub 图标链接、头像和头图（不换也能正常显示，主题自带默认图）。
 

@@ -3,7 +3,7 @@
 # Netlify 构建环境内置 URL（主站点地址）；若绑定自定义域名或 URL 不正确，
 # 在 Site configuration > Environment variables 里加一个 SITE_URL 覆盖即可。
 [build]
-  command = "node scripts/set-url.js && npm run build"
+  command = "node tools/set-url.js && npm run build"
   publish = "public"
 
 [build.environment]

@@ -14,9 +14,9 @@
 
 ## 二、已经就绪的部分
 
-- `netlify.toml`：构建命令 `node scripts/set-url.js && npm run build`，发布目录 `public`，Node 22，另加了三个安全响应头。
+- `netlify.toml`：构建命令 `node tools/set-url.js && npm run build`，发布目录 `public`，Node 22，另加了三个安全响应头。
 - `.github/workflows/pages.yml`：push 到 `main` 自动构建并部署到 GitHub Pages。
-- `scripts/set-url.js`：构建前自动把真实域名写进 `_config.yml` 的 `url` 和 `root`。已实测四种场景：
+- `tools/set-url.js`：构建前自动把真实域名写进 `_config.yml` 的 `url` 和 `root`。已实测四种场景：
 
 | 场景 | 得到的 `url` | 得到的 `root` |
 | --- | --- | --- |
@@ -82,7 +82,7 @@ Value: https://你的真实地址/        （例如 https://blog.example.com/ �
 
 图片不换**不会 404**：Fluid 主题自带 `avatar.png` 和 `default.png`，构建时已复制到 `public/img/`。在 `source/img/` 放同名文件会优先使用你的图。头图建议 1920×1080 以上，头像建议正方形。
 
-`_config.yml` 里的 `url: https://example.com` 只是本地占位，**线上不需要手改**，构建时由 `scripts/set-url.js` 覆盖。
+`_config.yml` 里的 `url: https://example.com` 只是本地占位，**线上不需要手改**，构建时由 `tools/set-url.js` 覆盖。
 
 ## 七、上线后的验收清单
 
@@ -109,7 +109,7 @@ Value: https://你的真实地址/        （例如 https://blog.example.com/ �
 
 ```bash
 cd /d/b-log
-SITE_URL="https://你的域名" node scripts/set-url.js
+SITE_URL="https://你的域名" node tools/set-url.js
 npm run build
 ```
 
