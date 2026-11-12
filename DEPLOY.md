@@ -3,9 +3,24 @@
 项目在 `D:\b-log`。代码侧的部署配置已经全部写完并实测通过，**你不需要改任何脚本**。
 先看「三条路线」选一条，然后按对应章节一步步做。
 
-> **当前进度（2026-11-12）**：代码已推送到 **https://github.com/erchafenan929/b-log**（公开仓库，默认分支 `main`，最新提交 `a2b1ed0`），`origin` 已关联、分支已跟踪。**建仓库和 push 这两步已经做完，不要重复做。**
+## 零、网址速查（找不到网址就看这里）
+
+| 用途 | 网址 | 现在能不能打开 |
+| --- | --- | --- |
+| **本地预览**（写文章时看效果） | **http://localhost:4000/** | ✅ 能，预览服务正在跑 |
+| 自己启动的预览端口 | `http://localhost:4001/` | ⚠️ 只有在 VS Code 里跑过「启动博客预览 (4001)」任务才会通；没跑就是打不开 |
+| GitHub 仓库（放代码的地方） | https://github.com/erchafenan929/b-log | ✅ 能 |
+| **上线设置页**（只剩这一步要点） | **https://github.com/erchafenan929/b-log/settings/pages** | ✅ 能，进去把 Source 选成 GitHub Actions |
+| 查看自动构建是否成功 | https://github.com/erchafenan929/b-log/actions | ✅ 能 |
+| **正式博客网址**（上线后给别人看） | **https://erchafenan929.github.io/b-log/** | ❌ 现在打开是 **404**，属于正常现象 |
+
+> ⚠️ **正式网址打不开不是「网址丢了」**：GitHub Pages 还没启用（接口查过，Pages 站点尚不存在），所以这个地址现在必然 404。按第七节启用 Pages 并 Re-run 之后，**地址不会变**，还是 `https://erchafenan929.github.io/b-log/`，刷新就能看到博客。
 >
-> **现在只剩一次网页点击**：想省事 → 到仓库 **Settings → Pages**，把 Source 选成 **GitHub Actions**（路线 2，不用再注册账号）；想用 Netlify → 直接跳到路线 1 的**第 3 步**导入仓库。站点本身尚未上线。
+> 桌面已经放了三个快捷方式：`博客-本地预览`、`博客-上线设置`、`博客-正式网址`，双击即可打开，不用记网址。
+
+> **当前进度（2026-11-12 核实）**：代码已推送到 **https://github.com/erchafenan929/b-log**（公开仓库，默认分支 `main`，最新提交 `a2bc6ee`），`origin` 已关联、分支已跟踪。**建仓库和 push 这两步已经做完，不要重复做。**
+>
+> **现在只剩一次网页点击**：想省事 → 到仓库 **Settings → Pages**，把 Source 选成 **GitHub Actions**（路线 2，不用再注册账号），再到 Actions 里 Re-run all jobs；想用 Netlify → 直接跳到路线 1 的**第 3 步**导入仓库。站点本身尚未上线。
 
 ## 一、三条路线，先选一条
 
