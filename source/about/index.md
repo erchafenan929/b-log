@@ -4,8 +4,8 @@ layout: about
 date: 2026-11-11 18:00:00
 ---
 
-欢迎来到 B-log。
+这里是 B-log，一个慢慢写起来的地方。
 
-这里放技术笔记、折腾记录和随手写的想法。文章都是 Markdown 文件，站点用 **Hexo + Fluid** 搭建，纯静态托管。
+放随笔、折腾记录，和一些「胡思乱想但从未实现」的念头。文章都是 Markdown 文件，站点用 **Hexo + Fluid** 搭建，纯静态托管，没有后台也没有数据库。
 
-> 想改这段文字，编辑 `source/about/index.md`；头像、名字和社交图标在 `_config.fluid.yml` 的 `about` 段。
+> 我还是想写。

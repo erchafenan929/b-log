@@ -1,15 +1,17 @@
 # 一步一步改网站（VS Code 版）
 
-> 本手册按 **VS Code + Windows** 写。项目里已配好 `.vscode/settings.json`：打开 `D:\b-log` 文件夹后，新建终端会自动是 Git Bash、自动停在项目目录，**不用敲 `cd`，不用加 `.cmd` 后缀**。
+> 本手册按 **VS Code + Windows** 写。项目里已配好 `.vscode/settings.json`：打开 `D:\b-log` 文件夹后，新建终端会自动是 Git Bash、自动停在项目目录，**不用敲 `cd`，不用加 `.cmd` 后缀**。  
 > 如果你坚持用 PowerShell 终端：先 `cd D:\b-log`，并把所有 `npm` / `npx` 写成 `npm.cmd` / `npx.cmd`（本机执行策略禁止运行 `.ps1`）。
+
+
 
 ---
 
 ## 先记住两条规则（2026-11-12 实测）
 
-| 改了什么 | 保存后要做什么 |
-| --- | --- |
-| 文章 `source/_posts/*.md` | `Ctrl+S` → **刷新浏览器就生效**，什么都不用重启 |
+| 改了什么                                   | 保存后要做什么                         |
+| -------------------------------------- | ------------------------------- |
+| 文章 `source/_posts/*.md`                | `Ctrl+S` → **刷新浏览器就生效**，什么都不用重启 |
 | 配置 `_config.yml` / `_config.fluid.yml` | `Ctrl+S` → **必须重启预览服务** → 刷新才生效 |
 
 实测过程：把 `_config.yml` 的 `title` 改成 `TITLE-TEST-999` 并保存，等 2 秒后抓预览页，`<title>` 仍是 `B-log`；重新执行一次 Hexo 命令，产物里才变成 `TITLE-TEST-999`。配置只在启动时读取一次。
@@ -48,19 +50,17 @@ node node_modules/hexo-cli/bin/hexo server -p 4001
 
 同样看到 `Hexo is running at http://localhost:4001/` 后，按 `Ctrl+C` → `↑` → 回车即可重启。
 
-> **不要用 `npx hexo server`**：终端不在项目目录时，`npx` 会联网重新下载整个 hexo，屏幕长时间不动，看起来就是「没反应」；PowerShell 下 `npx` 还会被执行策略拦截。
-> 若提示端口被占用（`Port 4001 has been used`），说明已有一个实例在跑，改任务里的 `-p 4001` 为 `-p 4002`，浏览器也换 4002。
+> **不要用 `npx hexo server`**：终端不在项目目录时，`npx` 会联网重新下载整个 hexo，屏幕长时间不动，看起来就是「没反应」；PowerShell 下 `npx` 还会被执行策略拦截。  
+> 若提示端口被占用（`Port 4001 has been used`），说明已有一个实例在跑，改任务里的 `-p 4001` 为 `-p 4002`，浏览器也换 4002。  
 > 4000 那个后台预览保留着，互不影响；改文章 `.md` 时两边都会同步更新。
 
 ## 第 2 步：先只改一行，把整条链路跑通（别跳过）
 
 1. 左侧点开 **`_config.yml`**。
 2. 找到第 4 行 `title: B-log`，改成：
-
    ```yaml
    title: "我的博客"
    ```
-
    （中文建议包在英文双引号里，避免 YAML 把特殊字符当语法。）
 3. `Ctrl+S` 保存。
 4. 停止预览任务（终端面板的垃圾桶图标，或 `Ctrl+C`），再按 `Ctrl+Shift+B` 重启它。
@@ -74,12 +74,12 @@ node node_modules/hexo-cli/bin/hexo server -p 4001
 
 打开 `_config.yml`，按行改：
 
-| 行号 | 现在是什么 | 改成什么 |
-| --- | --- | --- |
-| 4 | `title: B-log` | 站名，浏览器标签和导航栏用 |
-| 5 | `subtitle: 用 Markdown 记录点什么` | 副标题 / 简介 |
-| 6 | `description: 一个用 Hexo + Fluid 搭建的个人博客` | 站点描述，搜索引擎用 |
-| 7 | `author: B-log` | 署名 |
+| 行号 | 现在是什么                                   | 改成什么          |
+| -- | --------------------------------------- | ------------- |
+| 4  | `title: B-log`                          | 站名，浏览器标签和导航栏用 |
+| 5  | `subtitle: 用 Markdown 记录点什么`            | 副标题 / 简介      |
+| 6  | `description: 一个用 Hexo + Fluid 搭建的个人博客` | 站点描述，搜索引擎用    |
+| 7  | `author: B-log`                         | 署名            |
 
 改完 `Ctrl+S` → 重启预览 → 刷新。第 12 行 `url`、`第 13 行 root` **本地阶段不要动**（见第 7 步）。
 
@@ -87,16 +87,16 @@ node node_modules/hexo-cli/bin/hexo server -p 4001
 
 打开 **`_config.fluid.yml`**：
 
-| 行号 | 字段 | 作用 |
-| --- | --- | --- |
-| 6 | `navbar.blog_title` | 导航栏左上角文字（留空则跟随第 3 步的 `title`） |
-| 8–12 | `navbar.menu` | 菜单条目，**删掉一整行就删掉对应菜单**；调整行顺序即调整显示顺序 |
-| 22 | `index.banner_img_height` | 首页头图高度，0–100（屏幕百分比） |
-| 23 | `index.banner_mask_alpha` | 头图暗色遮罩，0–1.0，越大越暗 |
-| 26 | `index.slogan.text` | 首页中央打字机效果的大标语 |
-| 40 | `about.name` | 关于页姓名 |
-| 41 | `about.intro` | 关于页一句话简介 |
-| 43 | `about.icons[].link` | GitHub 图标跳转地址（现在是 `https://github.com` 官网首页，换成你的主页） |
+| 行号   | 字段                        | 作用                                                  |
+| ---- | ------------------------- | --------------------------------------------------- |
+| 6    | `navbar.blog_title`       | 导航栏左上角文字（留空则跟随第 3 步的 `title`）                       |
+| 8–12 | `navbar.menu`             | 菜单条目，**删掉一整行就删掉对应菜单**；调整行顺序即调整显示顺序                  |
+| 22   | `index.banner_img_height` | 首页头图高度，0–100（屏幕百分比）                                 |
+| 23   | `index.banner_mask_alpha` | 头图暗色遮罩，0–1.0，越大越暗                                   |
+| 26   | `index.slogan.text`       | 首页中央打字机效果的大标语                                       |
+| 40   | `about.name`              | 关于页姓名                                               |
+| 41   | `about.intro`             | 关于页一句话简介                                            |
+| 43   | `about.icons`             | 关于页社交图标（当前为空数组 `[]`；给了 GitHub 地址再按 `{ class, link, tip }` 格式加一行） |
 
 示例：把标语和署名换成自己的
 
@@ -124,28 +124,28 @@ node node_modules/hexo-cli/bin/hexo server -p 4001
 3. 配置里已经引用了这两个路径，**不用改任何 `.yml`**。
 4. 重启预览 → 刷新。
 
-> 图片是 `.jpg` 怎么办：把 `_config.fluid.yml` 第 21、36、39 行里的 `.png` 改成 `.jpg`，与实际文件名完全一致（大小写也要一致）。
+> 图片是 `.jpg` 怎么办：把 `_config.fluid.yml` 第 21、36、39 行里的 `.png` 改成 `.jpg`，与实际文件名完全一致（大小写也要一致）。  
 > 暂时不换也没关系，主题自带默认图，不会出现裂图。
 
 ## 第 6 步：改配色 / 暗色模式
 
-`_config.fluid.yml` 末尾第 45–57 行是可直接启用的模板，每行开头有 `# `。**删掉 `# ` 两个字符、保留前面的空格缩进**就生效。例如改成：
+`_config.fluid.yml` 末尾的 `dark_mode` / `color` / `font` 段**已经启用**，直接改值即可，不用再删注释。当前用的是：
 
 ```yaml
 dark_mode:
   enable: true
-  default: dark
+  default: auto          # auto | light | dark
 color:
-  body_bg_color: "#f5f5f5"
-  navbar_bg_color: "#2f4154"
-  navbar_text_color: "#fff"
+  body_bg_color: "#f7f6f3"
+  navbar_bg_color: "#3a4a5a"
+  navbar_text_color: "#ffffff"
 font:
   font_size: 16px
 ```
 
 - `default` 可选 `auto`（跟随系统/时间）、`light`、`dark`。
 - 颜色是 CSS 十六进制值，随便换；`font_size` 改全局字号。
-- 全段保持注释不动 = 用主题默认值（暗色模式默认已开启，`auto`）。
+- 想恢复主题默认：把整段每行开头加回 `# ` 注释掉即可。
 
 改完照例 `Ctrl+S` → 重启 → 刷新。
 
@@ -155,11 +155,11 @@ font:
 
 三种「网址」不是一回事：
 
-| 想改 | 怎么做 |
-| --- | --- |
-| 本地预览地址 | 由第 1 步命令的 `-p 4001` 决定，换成 `-p 5000` 就变成 `http://localhost:5000` |
+| 想改       | 怎么做                                                                                                                                                                                                                 |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 本地预览地址   | 由第 1 步命令的 `-p 4001` 决定，换成 `-p 5000` 就变成 `http://localhost:5000`                                                                                                                                                     |
 | **正式域名** | `_config.yml` 第 12 行 `url: https://example.com` 是占位符，**本地不用改，上线时也不用手改**：部署前 `tools/set-url.js` 会按平台自动写 `url` 和 `root`（含 GitHub Pages 的 `/仓库名/` 子路径）。绑定自己的域名时，在 Netlify / GitHub Actions 里设 `SITE_URL`，见 `DEPLOY.md` |
-| 文章链接形式 | `_config.yml` 第 15 行 `permalink: :title/`，**文件名就是网址**（`my-post.md` → `/my-post/`）。改成 `:year/:month/:day/:title/` 会加日期层级，但**旧链接全部失效**，要改趁现在 |
+| 文章链接形式   | `_config.yml` 第 15 行 `permalink: :title/`，**文件名就是网址**（`my-post.md` → `/my-post/`）。改成 `:year/:month/:day/:title/` 会加日期层级，但**旧链接全部失效**，要改趁现在                                                                          |
 
 ## 第 8 步：把改动存起来（本地存档，还没上线）
 
@@ -205,15 +205,15 @@ tags:
 
 ## 排查表
 
-| 现象 | 原因 / 处理 |
-| --- | --- |
+| 现象                            | 原因 / 处理                                                                                                                                          |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `npx hexo server -p 4001` 没反应 | 终端不在项目目录时 npx 会联网下载整个 hexo；PowerShell 下还会被 `.ps1` 执行策略拦。**别用 npx**，改按 `Ctrl+Shift+B` 跑任务，或用 `node node_modules/hexo-cli/bin/hexo server -p 4001` |
-| `Ctrl+Shift+B` 提示找不到 node | 把 `.vscode/tasks.json` 里 `"command": "node"` 改成绝对路径 `C:\\Program Files\\nodejs\\node.exe` |
-| 改了 `.yml`，刷新没变化 | 没重启预览。停掉任务 → `Ctrl+Shift+B` → `Ctrl+F5` |
-| `Ctrl+C` 没反应 | 你停的是 4001 自己起的那个吗？4000 是后台实例，停不掉，也不用停 |
-| 改 `.md` 也没变化 | 文件是不是在 `source/_drafts/`？是不是没 `Ctrl+S`？强制刷新一次 |
-| 终端是 `PS C:\...>` | 菜单「终端 → 新建终端」右侧下拉选 `Git Bash`，或 `Ctrl+Shift+P` → `Terminal: Select Default Profile` → Git Bash → **关掉旧终端再新建** |
-| 提示端口被占用 | 换端口：`npx hexo server -p 4002` |
-| 改完页面乱了 / 报错 | 多半是 YAML 缩进或引号不对：值统一加英文双引号，层级用空格（不要用 Tab）。改不回来就 `Ctrl+Z` 撤回 |
-| 图片不显示 | 必须在 `source/img/` 下；文件名和 `_config.fluid.yml` 里写的完全一致，含扩展名大小写 |
-| 想看配置全部可选字段 | [Fluid 配置指南](https://fluid.ist/docs/guide/) 或 `node_modules/hexo-theme-fluid/_config.yml`（只读参考） |
+| `Ctrl+Shift+B` 提示找不到 node     | 把 `.vscode/tasks.json` 里 `"command": "node"` 改成绝对路径 `C:\\Program Files\\nodejs\\node.exe`                                                        |
+| 改了 `.yml`，刷新没变化               | 没重启预览。停掉任务 → `Ctrl+Shift+B` → `Ctrl+F5`                                                                                                          |
+| `Ctrl+C` 没反应                  | 你停的是 4001 自己起的那个吗？4000 是后台实例，停不掉，也不用停                                                                                                            |
+| 改 `.md` 也没变化                  | 文件是不是在 `source/_drafts/`？是不是没 `Ctrl+S`？强制刷新一次                                                                                                    |
+| 终端是 `PS C:\...>`              | 菜单「终端 → 新建终端」右侧下拉选 `Git Bash`，或 `Ctrl+Shift+P` → `Terminal: Select Default Profile` → Git Bash → **关掉旧终端再新建**                                    |
+| 提示端口被占用                       | 换端口：`node node_modules/hexo-cli/bin/hexo server -p 4002`                                                                                                                    |
+| 改完页面乱了 / 报错                   | 多半是 YAML 缩进或引号不对：值统一加英文双引号，层级用空格（不要用 Tab）。改不回来就 `Ctrl+Z` 撤回                                                                                      |
+| 图片不显示                         | 必须在 `source/img/` 下；文件名和 `_config.fluid.yml` 里写的完全一致，含扩展名大小写                                                                                     |
+| 想看配置全部可选字段                    | [Fluid 配置指南](https://fluid.ist/docs/guide/) 或 `node_modules/hexo-theme-fluid/_config.yml`（只读参考）                                                  |

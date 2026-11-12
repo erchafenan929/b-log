@@ -24,7 +24,7 @@ index:
   banner_mask_alpha: 0.3
   slogan:
     enable: true
-    text: "用 Markdown 记录点什么"
+    text: "我还是想写"
   auto_excerpt:
     enable: true
   post_meta:
@@ -39,19 +39,19 @@ about:
   banner_mask_alpha: 0.3
   avatar: /img/avatar.png
   name: "B-log"
-  intro: "用 Markdown 记录点什么"
-  icons:
-    - { class: "iconfont icon-github-fill", link: "https://github.com", tip: "GitHub" }
+  intro: "想成为一个优秀的人类"
+  icons: []
 
-# ---- 可选外观：把下面每行开头的 "# " 去掉即生效，颜色值可自行替换 ----
-# 完整字段见 https://fluid.ist/docs/guide/ 或 node_modules/hexo-theme-fluid/_config.yml
-# dark_mode:
-#   enable: true
-#   default: auto          # auto | light | dark
-# color:
-#   body_bg_color: "#eee"
-#   navbar_bg_color: "#2f4154"
-#   navbar_text_color: "#fff"
-# font:
-#   font_size: 16px
-#   font_family:
+# ---- 外观：以下是当前生效的配色与字号，直接改值即可 ----
+dark_mode:
+  enable: true
+  default: auto          # auto | light | dark
+color:
+  body_bg_color: "#f7f6f3"
+  navbar_bg_color: "#3a4a5a"
+  navbar_text_color: "#ffffff"
+font:
+  font_size: 16px
+
+# 更多可选字段见 https://fluid.ist/docs/guide/
+# 或 node_modules/hexo-theme-fluid/_config.yml（只读参考）

@@ -92,13 +92,13 @@ tags:
 
 ## 改网址
 
-- **本地预览**固定是 `http://localhost:4000`；想换端口用 `npx hexo server -p 5000`。
+- **本地预览**固定是 `http://localhost:4000`；想换端口用 `node node_modules/hexo-cli/bin/hexo server -p 5000`（不要用 `npx`，见 `CUSTOMIZE.md`）。
 - **正式域名**：`_config.yml` 里的 `url: https://example.com` 只是本地占位，**上线时不用手改**。构建前 `tools/set-url.js` 会读取部署平台的域名，自动写好 `url` 和 `root`（含 GitHub Pages 的 `/仓库名/` 子路径）。绑定自定义域名时，到 Netlify / GitHub Actions 里设 `SITE_URL` 即可，细节见 `DEPLOY.md`。
 - **文章链接**：由 `permalink: :title/` 决定，文件名就是网址（`my-post.md` → `/my-post/`）。想加日期层级可改成 `:year/:month/:day/:title/`，但**会让已有链接失效**，建议建站初期就定好。
 
 ## 个性化
 
-改动只涉及两个文件。改完要按 `Ctrl+C` 停预览再 `npm run dev` 重启（配置不在文件监听范围内）。
+改动只涉及两个文件。改完必须**重启预览服务**才会生效（停掉任务再按 `Ctrl+Shift+B`；或在终端 `Ctrl+C` → `↑` → 回车），配置不在文件监听范围内。
 
 | 想改什么 | 文件 | 字段 |
 | --- | --- | --- |
@@ -107,9 +107,9 @@ tags:
 | 导航菜单条目（增删） | `_config.fluid.yml` | `navbar.menu`，一行一项 |
 | 首页大标语 | `_config.fluid.yml` | `index.slogan.text` |
 | 首页头图高度、遮罩深浅 | `_config.fluid.yml` | `index.banner_img_height` `index.banner_mask_alpha` |
-| 关于页姓名、简介、社交图标 | `_config.fluid.yml` | `about.name` `about.intro` `about.icons[].link` |
+| 关于页姓名、简介、社交图标 | `_config.fluid.yml` | `about.name` `about.intro` `about.icons`（当前为空，按需添加） |
 | 头像、头图 | `source/img/avatar.png`、`source/img/default.png` | 放同名图片覆盖；不换也能正常显示（主题自带默认图） |
-| 暗色模式、配色、字号 | `_config.fluid.yml` | 文件末尾有注释模板，去掉 `#` 即生效 |
+| 暗色模式、配色、字号 | `_config.fluid.yml` | 末尾 `dark_mode` / `color` / `font` 段已启用，直接改值 |
 
 **不要直接改 `node_modules/hexo-theme-fluid/` 里的文件**，升级主题会丢；一律写进 `_config.fluid.yml` 覆盖。
 

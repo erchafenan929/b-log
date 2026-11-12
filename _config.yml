@@ -2,8 +2,8 @@
 # 改完这里必须重启预览服务才生效；逐步说明见 CUSTOMIZE.md
 
 title: B-log
-subtitle: 用 Markdown 记录点什么
-description: 一个用 Hexo + Fluid 搭建的个人博客
+subtitle: 我还是想写
+description: 随笔、折腾记录，和一些胡思乱想但从未实现的念头
 author: B-log
 language: zh-CN
 timezone: Asia/Shanghai
