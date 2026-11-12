@@ -28,20 +28,28 @@
 
 ## 第 1 步：起一个自己能控制的预览
 
-1. 菜单 **终端 → 新建终端**（或 `Ctrl+Shift+` 反引号键）。
-2. 看提示符：应是 `$` 结尾、路径在 `/d/b-log`，不是 `PS C:\...>`。
-3. 敲这一行并回车：
+### 推荐：VS Code 任务，一条命令都不用敲
 
-   ```bash
-   npx hexo server -p 4001
-   ```
+1. 按 **`Ctrl+Shift+B`**，或菜单 **终端 → 运行任务…** → 选 **「启动博客预览 (4001)」**。
+2. 终端面板出现 `INFO  Hexo is running at http://localhost:4001/` 就是成功。
+3. 浏览器打开 **http://localhost:4001**，确认能看到首页。
 
-4. 看到 `INFO  Hexo is running at http://localhost:4001/ . Press Ctrl+C to stop.` 就是成功。
-5. 浏览器打开 **http://localhost:4001**，确认能看到首页。
+项目里的 `.vscode/tasks.json` 已把这个任务设成默认生成任务。它直接调用项目内的 `node_modules/hexo-cli/bin/hexo`，**不经过 `npx`、不经过终端 shell、强制在项目目录运行**，所以不受执行策略、终端类型和当前目录影响。
 
-**这个终端窗口不要关。** 以后每次改完 `.yml`，就在这里按 `Ctrl+C` 停掉，再按 `↑` 调出命令、回车重启。
+**终端面板别关。** 以后每次改完 `.yml`：点面板右侧的垃圾桶图标（或 `Ctrl+C`）停止任务，再按一次 `Ctrl+Shift+B` 重启。
 
-> 若提示端口被占用（`Port 4001 has been used`），说明已有一个实例在跑，换成 `-p 4002`，浏览器也换成 4002。
+### 备选：在终端里敲
+
+先确认当前目录对（敲 `pwd`，应显示 `/d/b-log`），再用这条：
+
+```bash
+node node_modules/hexo-cli/bin/hexo server -p 4001
+```
+
+同样看到 `Hexo is running at http://localhost:4001/` 后，按 `Ctrl+C` → `↑` → 回车即可重启。
+
+> **不要用 `npx hexo server`**：终端不在项目目录时，`npx` 会联网重新下载整个 hexo，屏幕长时间不动，看起来就是「没反应」；PowerShell 下 `npx` 还会被执行策略拦截。
+> 若提示端口被占用（`Port 4001 has been used`），说明已有一个实例在跑，改任务里的 `-p 4001` 为 `-p 4002`，浏览器也换 4002。
 > 4000 那个后台预览保留着，互不影响；改文章 `.md` 时两边都会同步更新。
 
 ## 第 2 步：先只改一行，把整条链路跑通（别跳过）
@@ -55,7 +63,7 @@
 
    （中文建议包在英文双引号里，避免 YAML 把特殊字符当语法。）
 3. `Ctrl+S` 保存。
-4. 切回终端：`Ctrl+C` 停掉 → 按 `↑` → 回车（重新跑第 1 步那条命令）。
+4. 停止预览任务（终端面板的垃圾桶图标，或 `Ctrl+C`），再按 `Ctrl+Shift+B` 重启它。
 5. 浏览器按 `Ctrl+F5` 强制刷新。
 
 ✅ **成功标志**：浏览器标签页标题、页面左上角都变成「我的博客」。
@@ -199,7 +207,9 @@ tags:
 
 | 现象 | 原因 / 处理 |
 | --- | --- |
-| 改了 `.yml`，刷新没变化 | 没重启预览。回终端 `Ctrl+C` → `↑` → 回车 → `Ctrl+F5` |
+| `npx hexo server -p 4001` 没反应 | 终端不在项目目录时 npx 会联网下载整个 hexo；PowerShell 下还会被 `.ps1` 执行策略拦。**别用 npx**，改按 `Ctrl+Shift+B` 跑任务，或用 `node node_modules/hexo-cli/bin/hexo server -p 4001` |
+| `Ctrl+Shift+B` 提示找不到 node | 把 `.vscode/tasks.json` 里 `"command": "node"` 改成绝对路径 `C:\\Program Files\\nodejs\\node.exe` |
+| 改了 `.yml`，刷新没变化 | 没重启预览。停掉任务 → `Ctrl+Shift+B` → `Ctrl+F5` |
 | `Ctrl+C` 没反应 | 你停的是 4001 自己起的那个吗？4000 是后台实例，停不掉，也不用停 |
 | 改 `.md` 也没变化 | 文件是不是在 `source/_drafts/`？是不是没 `Ctrl+S`？强制刷新一次 |
 | 终端是 `PS C:\...>` | 菜单「终端 → 新建终端」右侧下拉选 `Git Bash`，或 `Ctrl+Shift+P` → `Terminal: Select Default Profile` → Git Bash → **关掉旧终端再新建** |

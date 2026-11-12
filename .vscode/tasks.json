@@ -1,0 +1,41 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "启动博客预览 (4001)",
+      "type": "process",
+      "command": "node",
+      "args": ["node_modules/hexo-cli/bin/hexo", "server", "-p", "4001"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "直接调用项目内 hexo，不经过 npx / 终端 shell，Ctrl+Shift+B 即可启动"
+    },
+    {
+      "label": "重新生成静态文件",
+      "type": "process",
+      "command": "node",
+      "args": ["node_modules/hexo-cli/bin/hexo", "generate"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "等同于 npm run build，生成 public/ 目录"
+    }
+  ]
+}

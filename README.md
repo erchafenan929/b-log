@@ -135,7 +135,9 @@ Fluid 内置但默认未开启的能力，都在 `_config.fluid.yml` 里加配�
 
 如果提示符是 `PS ...>`（PowerShell），说明配置没生效：`Ctrl+Shift+P` → `Terminal: Select Default Profile` → 选 `Git Bash`，关掉旧终端再新建一个。也可以留在 PowerShell，用 `cd D:\b-log` 配合 `npm.cmd run dev` / `npx.cmd hexo new "标题"`。
 
-> 该配置只作用于这个文件夹，不影响其他项目。换电脑后若 Git Bash 不在 `C:\Program Files\Git\bin\bash.exe`，改一下 `.vscode/settings.json` 里的 `path` 即可。
+项目另有 `.vscode/tasks.json`：按 **`Ctrl+Shift+B`** 直接启动预览（端口 4001），它调用项目内的 hexo，不经过 `npx` 和终端 shell，不受执行策略与当前目录影响。改完 `.yml` 配置后停掉任务、再按一次即可重启。逐步说明见 [CUSTOMIZE.md](./CUSTOMIZE.md)。
+
+> 这两个配置只作用于这个文件夹，不影响其他项目。换电脑后若 Git Bash 不在 `C:\Program Files\Git\bin\bash.exe`，改一下 `.vscode/settings.json` 里的 `path` 即可。
 
 ## 常用命令
 
