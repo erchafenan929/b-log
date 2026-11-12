@@ -106,6 +106,8 @@ Fluid 内置但默认未开启的能力，都在 `_config.fluid.yml` 里加配�
 
 ## 常用命令
 
+> **终端怎么选**：推荐 **Git Bash**，本文命令可原样照抄。若用 VS Code 默认的 PowerShell，本机执行策略是 `Restricted`，`npm` / `npx` 会因 `.ps1` 被禁止而报错，要写成 `npm.cmd run dev`、`npx.cmd hexo new "标题"`；CMD 终端里 `npm` 可直接使用。进入目录的写法分别是：PowerShell `cd D:\b-log`、CMD `cd /d D:\b-log`、Git Bash `cd /d/b-log`。
+
 | 命令 | 作用 |
 | --- | --- |
 | `npm install` | 安装依赖 |
