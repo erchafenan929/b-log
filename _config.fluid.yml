@@ -41,3 +41,16 @@ about:
   intro: "用 Markdown 记录点什么"
   icons:
     - { class: "iconfont icon-github-fill", link: "https://github.com", tip: "GitHub" }
+
+# ---- 可选外观：把下面每行开头的 "# " 去掉即生效，颜色值可自行替换 ----
+# 完整字段见 https://fluid.ist/docs/guide/ 或 node_modules/hexo-theme-fluid/_config.yml
+# dark_mode:
+#   enable: true
+#   default: auto          # auto | light | dark
+# color:
+#   body_bg_color: "#eee"
+#   navbar_bg_color: "#2f4154"
+#   navbar_text_color: "#fff"
+# font:
+#   font_size: 16px
+#   font_family:
