@@ -159,10 +159,13 @@ Site configuration → Domain management → Add a domain，按提示到域名�
 
 1. **建仓库和 push 已完成**，跳过：`erchafenan929/b-log` 本来就是 Public 仓库，代码已在 `main` 分支。
 2. 打开 https://github.com/erchafenan929/b-log/settings/pages → **Build and deployment → Source** 选 **GitHub Actions**（不要选 "Deploy from a branch"）。
-3. 到 **Actions** 标签页看 `Deploy to GitHub Pages` 是否跑绿；也可以手动 **Run workflow**。工作流已包含 `npm ci` → 域名注入 → 构建 → 上传产物 → 部署。
+3. **改完第 2 步的 Source，才能重跑**（顺序不能反）。之前已有两次失败记录 `43190764371`、`43191117007`，都失败在 `actions/configure-pages@v5`，原因就是 Pages 没启用；checkout / setup-node / `npm ci` 三步都是绿的，说明配置和依赖没问题，**不用改任何代码**。重跑二选一：
 
-> 首次推送时这个 workflow 已经自动跑过一次，失败在 `actions/configure-pages@v5`，原因就是 Pages 还没启用；checkout / setup-node / `npm ci` 三步都是绿的，说明配置和依赖没问题。**改完 Source 后到 Actions 页点 Re-run all jobs 即可**，不用改任何代码。
-4. 默认地址形如 `https://<用户名>.github.io/<仓库名>/`；**本仓库对应 https://erchafenan929.github.io/b-log/**。工作流会自动把 `root` 设成 `/b-log/`，所以子路径不会丢样式。
+   - **方法 A（推荐，按钮最好找）**：打开 https://github.com/erchafenan929/b-log/actions/workflows/pages.yml → 右上角 **Run workflow** 下拉 → 分支选 `main` → 点绿色 **Run workflow**。工作流里写了 `workflow_dispatch`，所以这个按钮一定在。
+   - **方法 B（Re-run all jobs）**：打开最近一次失败的运行 https://github.com/erchafenan929/b-log/actions/runs/43191117007 → 页面**右上角**找 **Re-run all jobs**（中文界面是「重新运行所有作业」）。若只看到一个带 **▼** 小箭头的 **Re-run** 按钮，点箭头展开，里面有 `Re-run all jobs` / `Re-run failed jobs`，选 **all jobs**。
+   - 想从首页自己找：https://github.com/erchafenan929/b-log/actions → 左栏点 **Deploy to GitHub Pages** → 右侧运行列表最上面那条红色 ✗ → 点标题进详情页 → 右上角就是那个按钮。**按钮不在列表页，必须点进某一次运行详情页才有。**
+4. 等 1–2 分钟运行变绿 ✅，再打开正式网址验收。
+5. 默认地址形如 `https://<用户名>.github.io/<仓库名>/`；**本仓库对应 https://erchafenan929.github.io/b-log/**。工作流会自动把 `root` 设成 `/b-log/`，所以子路径不会丢样式。
 
 **这两种情况要手动加变量**：仓库名就是 `<用户名>.github.io`（用户主页站），或绑定了自定义域名。到 **Settings → Secrets and variables → Actions → Variables → New repository variable** 加：
 
