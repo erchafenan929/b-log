@@ -1,5 +1,5 @@
 # Hexo 站点配置 | https://hexo.io/zh-cn/docs/configuration
-# 改完这里记得重新生成：npm run build
+# 改完这里必须重启预览服务才生效；逐步说明见 CUSTOMIZE.md
 
 title: B-log
 subtitle: 用 Markdown 记录点什么

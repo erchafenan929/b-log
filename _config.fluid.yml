@@ -1,6 +1,7 @@
 # Fluid 主题覆盖配置
 # 只写需要改的项，其余用主题默认值；完整说明见 https://fluid.ist/docs/guide/
 # 注意：这里出现的键优先级高于 node_modules/hexo-theme-fluid/_config.yml
+# 逐步修改说明见 CUSTOMIZE.md（改完要重启预览服务）
 
 navbar:
   blog_title: "B-log"
