@@ -55,7 +55,7 @@ npm run build     # 等价于 hexo generate，产物在 public/
 
 ## 写一篇文章
 
-先进入项目目录 `D:/b-log`，推荐用命令创建——`scaffolds/post.md` 已配好模板，生成的文件自带标题、日期、分类、标签和摘要分隔，直接改内容即可：
+先在终端进入项目目录：VS Code / PowerShell 敲 `cd D:\b-log`，CMD 敲 `cd /d D:\b-log`，Git Bash 敲 `cd /d/b-log`。推荐用命令创建文章——`scaffolds/post.md` 已配好模板，生成的文件自带标题、日期、分类、标签和摘要分隔，直接改内容即可：
 
 ```bash
 npx hexo new "文章标题"

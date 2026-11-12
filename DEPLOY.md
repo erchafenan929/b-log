@@ -31,12 +31,14 @@
 
 在 GitHub 上新建一个空仓库（不要勾选初始化 README / .gitignore），然后：
 
-```bash
-cd /d/b-log
+```powershell
+cd D:\b-log
 git remote add origin https://github.com/<你的用户名>/<仓库名>.git
 git branch -M main
 git push -u origin main
 ```
+
+> 上面按 VS Code 默认的 **PowerShell** 写。CMD 里第一行换成 `cd /d D:\b-log`；Git Bash 里换成 `cd /d/b-log`。其余命令三个终端通用。
 
 推送前确认 `.gitignore` 生效：`git status --short` 不应出现 `node_modules/` 或 `public/`。
 
@@ -107,11 +109,15 @@ Value: https://你的真实地址/        （例如 https://blog.example.com/ �
 
 ## 九、本地想模拟线上域名验证
 
-```bash
-cd /d/b-log
-SITE_URL="https://你的域名" node tools/set-url.js
+```powershell
+cd D:\b-log
+$env:SITE_URL = "https://你的域名"
+node tools/set-url.js
 npm run build
+Remove-Item Env:SITE_URL
 ```
+
+Git Bash 里第二行写 `SITE_URL="https://你的域名" node tools/set-url.js`；CMD 里写 `set SITE_URL=https://你的域名 && node tools/set-url.js`。
 
 注意这会**改动本地 `_config.yml`**。验证完用 `git checkout -- _config.yml` 还原，或手动把 `url` 改回 `https://example.com`、`root` 改回 `/`。
 
