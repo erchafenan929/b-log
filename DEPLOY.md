@@ -5,22 +5,22 @@
 
 ## 零、网址速查（找不到网址就看这里）
 
-| 用途 | 网址 | 现在能不能打开 |
+| 用途 | 网址 | 状态 |
 | --- | --- | --- |
-| **本地预览**（写文章时看效果） | **http://localhost:4000/** | ✅ 能，预览服务正在跑 |
+| **正式博客（发给别人看）** | **https://erchafenan929.github.io/b-log/** | ✅ **已上线**，2026-11-12 18:34 构建成功 |
+| 本地预览（写文章时看效果） | **http://localhost:4000/** | ✅ 能，预览服务正在跑 |
 | 自己启动的预览端口 | `http://localhost:4001/` | ⚠️ 只有在 VS Code 里跑过「启动博客预览 (4001)」任务才会通；没跑就是打不开 |
 | GitHub 仓库（放代码的地方） | https://github.com/erchafenan929/b-log | ✅ 能 |
-| **上线设置页**（只剩这一步要点） | **https://github.com/erchafenan929/b-log/settings/pages** | ✅ 能，进去把 Source 选成 GitHub Actions |
-| 查看自动构建是否成功 | https://github.com/erchafenan929/b-log/actions | ✅ 能 |
-| **正式博客网址**（上线后给别人看） | **https://erchafenan929.github.io/b-log/** | ❌ 现在打开是 **404**，属于正常现象 |
+| Pages 设置页 | https://github.com/erchafenan929/b-log/settings/pages | ✅ 已设为 GitHub Actions，**不用再改** |
+| 查看自动构建是否成功 | https://github.com/erchafenan929/b-log/actions | ✅ 最近两次运行都是 success |
 
-> ⚠️ **正式网址打不开不是「网址丢了」**：GitHub Pages 还没启用（接口查过，Pages 站点尚不存在），所以这个地址现在必然 404。按第七节启用 Pages 并 Re-run 之后，**地址不会变**，还是 `https://erchafenan929.github.io/b-log/`，刷新就能看到博客。
+> 桌面快捷方式共四个：`博客-本地预览`、`博客-上线设置`、`博客-正式网址`、`博客-重跑构建`，双击即可打开，不用记网址。
 >
-> 桌面已经放了三个快捷方式：`博客-本地预览`、`博客-上线设置`、`博客-正式网址`，双击即可打开，不用记网址。
+> **验收（2026-11-12）**：首页、归档、关于、分类、标签、文章页、`css/main.css`、图片全部返回 200；首页标语「我还是想写」和文章「你好，这是我的第一篇博客」都正常显示；站内链接为 `/b-log/...`，说明 `root` 注入正确，子路径没有丢样式。
 
-> **当前进度（2026-11-12 核实）**：代码已推送到 **https://github.com/erchafenan929/b-log**（公开仓库，默认分支 `main`，最新提交 `a2bc6ee`），`origin` 已关联、分支已跟踪。**建仓库和 push 这两步已经做完，不要重复做。**
+> **当前进度：✅ 已上线。** 代码在 Public 仓库 `erchafenan929/b-log` 的 `main` 分支，`origin` 已跟踪；Pages 的 Source = **GitHub Actions**；运行 `43191117007`（Re-run）和 `43201501830`（手动触发）均为 success。
 >
-> **现在只剩一次网页点击**：想省事 → 到仓库 **Settings → Pages**，把 Source 选成 **GitHub Actions**（路线 2，不用再注册账号），再到 Actions 里 Re-run all jobs；想用 Netlify → 直接跳到路线 1 的**第 3 步**导入仓库。站点本身尚未上线。
+> **以后发新文章只要 `git push`**，GitHub Actions 会自动构建并更新线上站点，不用再进设置页。早期两次失败（`43190764371`、`43191117007`）是 Pages 未启用导致的 `configure-pages@v5` 报错，现已解决。
 
 ## 一、三条路线，先选一条
 
@@ -159,7 +159,7 @@ Site configuration → Domain management → Add a domain，按提示到域名�
 
 1. **建仓库和 push 已完成**，跳过：`erchafenan929/b-log` 本来就是 Public 仓库，代码已在 `main` 分支。
 2. 打开 https://github.com/erchafenan929/b-log/settings/pages → **Build and deployment → Source** 选 **GitHub Actions**（不要选 "Deploy from a branch"）。
-3. **改完第 2 步的 Source，才能重跑**（顺序不能反）。之前已有两次失败记录 `43190764371`、`43191117007`，都失败在 `actions/configure-pages@v5`，原因就是 Pages 没启用；checkout / setup-node / `npm ci` 三步都是绿的，说明配置和依赖没问题，**不用改任何代码**。重跑二选一：
+3. ✅ **这一步已完成**（2026-11-12 18:34）。顺序始终是「先改 Source，再重跑」：早期两次失败 `43190764371`、`43191117007` 都卡在 `actions/configure-pages@v5`，原因就是 Pages 没启用；checkout / setup-node / `npm ci` 三步都是绿的，说明配置和依赖没问题，**不用改任何代码**。改完 Source 后，Re-run 的 `43191117007` 和手动触发的 `43201501830` 都是 success。以后万一构建失败，重跑二选一：
 
    - **方法 A（推荐，按钮最好找）**：打开 https://github.com/erchafenan929/b-log/actions/workflows/pages.yml → 右上角 **Run workflow** 下拉 → 分支选 `main` → 点绿色 **Run workflow**。工作流里写了 `workflow_dispatch`，所以这个按钮一定在。
    - **方法 B（Re-run all jobs）**：打开最近一次失败的运行 https://github.com/erchafenan929/b-log/actions/runs/43191117007 → 页面**右上角**找 **Re-run all jobs**（中文界面是「重新运行所有作业」）。若只看到一个带 **▼** 小箭头的 **Re-run** 按钮，点箭头展开，里面有 `Re-run all jobs` / `Re-run failed jobs`，选 **all jobs**。
